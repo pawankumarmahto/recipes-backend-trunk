@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.assignment.favourite.recipes.entity.Recipes;
+import com.assignment.favourite.recipes.exception.RecipesFoundException;
 import com.assignment.favourite.recipes.exception.RecipesNotFoundException;
 import com.assignment.favourite.recipes.service.RecipesService;
 
@@ -33,15 +34,17 @@ public class RecipesController {
 	}
 	
 	@RequestMapping(value = "/level2/addRecipes", method = RequestMethod.POST)
-	public String  addRecipes(@RequestBody Recipes recipes) {
+	public String  addRecipes(@RequestBody Recipes recipes) throws RecipesFoundException {
 		logger.info(" In addRecipes() of  RecipesController ");
-		return recepesService.saveRecipes(recipes);
+		 recepesService.saveRecipes(recipes);
+		 return "Recipes is added successfully";
 	}
 	
 	@RequestMapping(value = "/level2/delete/{id}", method = RequestMethod.DELETE)
 	public String deleteRecipe(@PathVariable("id") Long recipesId) throws RecipesNotFoundException {
 		logger.info(" In deleteRecipe() of  RecipesController ");
-		return recepesService.deleteRecipes(recipesId);
+		 recepesService.deleteRecipes(recipesId);
+		 return "Recipes is deleted successfully";
 	}
 	
 	@RequestMapping(value = "/level2/deleteAllRecipes", method = RequestMethod.DELETE)

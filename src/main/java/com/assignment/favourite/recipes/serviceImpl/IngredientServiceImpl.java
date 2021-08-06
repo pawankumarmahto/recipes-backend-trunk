@@ -1,14 +1,16 @@
 package com.assignment.favourite.recipes.serviceImpl;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.assignment.favourite.recipes.converter.DateTimeConverter;
 import com.assignment.favourite.recipes.entity.Ingredients;
+import com.assignment.favourite.recipes.entity.Users;
+import com.assignment.favourite.recipes.exception.IngredientFoundException;
 import com.assignment.favourite.recipes.exception.IngredientNotFoundException;
 import com.assignment.favourite.recipes.repository.IngredientRepository;
 import com.assignment.favourite.recipes.service.IngredientService;
@@ -26,10 +28,16 @@ public class IngredientServiceImpl  implements IngredientService{
 		return repository.findAll();
 	}
 	
-	public Ingredients saveIngredient(Ingredients ingredient) {
+	public Ingredients saveIngredient(Ingredients ingredient) throws IngredientFoundException {
 		logger.info(" In saveIngredient() of  IngredientServiceImpl ");
-		ingredient.setCreatedAt(LocalDateTime.now());
-		ingredient.setUpdatedAt(LocalDateTime.now());
+		
+		Optional<Users> optional = repository.findByIngredientsName(ingredient.getIngredientsName()); 
+		if(optional.isPresent()) {
+			throw new IngredientFoundException("Ingredient already exists, can't be added!");
+		}  
+		
+		ingredient.setCreatedAt(DateTimeConverter.getCurrentDateTime());
+		ingredient.setUpdatedAt(DateTimeConverter.getCurrentDateTime());
 		return repository.save(ingredient);
 	}
 	

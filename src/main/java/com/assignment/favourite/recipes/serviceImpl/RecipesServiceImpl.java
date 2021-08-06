@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.assignment.favourite.recipes.converter.DateTimeConverter;
 import com.assignment.favourite.recipes.entity.Recipes;
+import com.assignment.favourite.recipes.exception.RecipesFoundException;
 import com.assignment.favourite.recipes.exception.RecipesNotFoundException;
 import com.assignment.favourite.recipes.repository.RecipesRepository;
 import com.assignment.favourite.recipes.service.RecipesService;
@@ -25,30 +27,23 @@ public class RecipesServiceImpl implements RecipesService {
 		return repository.findAll();
 	}
 	
-	public String saveRecipes(Recipes recipes) {
+	public void saveRecipes(Recipes recipes) throws RecipesFoundException {
 		logger.info(" In saveRecipes() of  RecipesServiceImpl ");
-		Recipes oldRecipes = repository.findByRecipesName(recipes.getRecipesName());
-		
-		if (oldRecipes != null && oldRecipes.getRecipesId() != 0) {
-			return "Con not add, Recipes is already exist";
-		} else {
-			recipes.setPreparedAt(LocalDateTime.now());
-			recipes.setUpdatedAt(LocalDateTime.now());
-			repository.save(recipes);
-			return "Recipe is saved successfully";
-		}
+		if (repository.existsById(recipes.getRecipesId())) {
+			throw new RecipesFoundException("Recipe already exists, can't be added!");
+		} 
+		recipes.setPreparedAt(DateTimeConverter.getCurrentDateTime());
+		recipes.setUpdatedAt(DateTimeConverter.getCurrentDateTime());
+		repository.save(recipes);
 	}
 	
-	public String deleteRecipes(Long recipesId) throws RecipesNotFoundException {
+	public void deleteRecipes(Long recipesId) throws RecipesNotFoundException {
 		logger.info(" In deleteRecipes() of  RecipesServiceImpl ");
 		String message = "";
-		if (repository.existsById(recipesId)) {
-			repository.deleteById(recipesId);
-			message = "Recipe is deleted successfully";
-		} else {
-			throw new RecipesNotFoundException("Recipes not found");
+		if (!repository.existsById(recipesId)) {
+			throw new RecipesNotFoundException("Recipe not found");
 		}
-		return message;
+		repository.deleteById(recipesId);
 	}
 	
 	public void deleteAllRecipes() {

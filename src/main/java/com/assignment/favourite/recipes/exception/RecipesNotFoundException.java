@@ -10,16 +10,4 @@ public class RecipesNotFoundException extends Exception {
 	        super(message);
 	    }
 
-	    public RecipesNotFoundException(String message, Throwable cause) {
-	        super(message, cause);
-	    }
-	    public RecipesNotFoundException(Throwable cause) {
-	        super(cause);
-	    }
-	    protected RecipesNotFoundException(String message, Throwable cause,
-                boolean enableSuppression,
-                boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-		}
-
 }

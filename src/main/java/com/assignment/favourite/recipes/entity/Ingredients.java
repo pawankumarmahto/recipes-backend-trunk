@@ -1,5 +1,6 @@
 package com.assignment.favourite.recipes.entity;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -10,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.assignment.favourite.recipes.converter.LocalDateTimeConverter;
+import com.assignment.favourite.recipes.converter.DateTimeConverter;
 
 
 @Entity
@@ -24,11 +25,9 @@ public class Ingredients {
 	@Column(length = 100, unique = true, nullable = false)
 	private String ingredientsName;
 	
-	@Convert(converter = LocalDateTimeConverter.class)
-	private LocalDateTime createdAt;
+	private Timestamp createdAt;
 	
-	@Convert(converter = LocalDateTimeConverter.class)
-	private LocalDateTime updatedAt;
+	private Timestamp updatedAt;
 	
 	/*
 	 * @ManyToMany(mappedBy="ingredients") private Set<Recipes> recipes;
@@ -50,19 +49,19 @@ public class Ingredients {
 		this.ingredientsName = ingredientsName;
 	}
 
-	public LocalDateTime getCreatedAt() {
+	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public LocalDateTime getUpdatedAt() {
+	public Timestamp getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(LocalDateTime updatedAt) {
+	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 }

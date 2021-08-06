@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -59,7 +60,10 @@ public class RecipesTest {
 	 */
 	@Test
 	public void addRecipesTestWithNegativeScenario() throws Exception{
-		Mockito.when(RecipesRepository.findByRecipesName(Mockito.anyString())).thenReturn(getRecipes());
+		
+		Optional<Recipes> optional = Optional.of(getRecipes());
+		//todo
+		//Mockito.when(RecipesRepository.findByRecipesName(Mockito.anyString())).thenReturn(optional);
 		Mockito.when(RecipesRepository.save(Mockito.any(Recipes.class))).thenReturn(getRecipes());
 		String result = recipesController.addRecipes(getRecipes());
 		assertEquals( "Con not add, Recipes is already exist", result);

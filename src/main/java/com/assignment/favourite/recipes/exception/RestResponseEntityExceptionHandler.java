@@ -27,4 +27,23 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
 		
 	}
+	
+	@ExceptionHandler(RecipesFoundException.class)
+	public ResponseEntity<ErrorMessage> recipesFoundException(RecipesFoundException exception,
+												WebRequest request) {
+		ErrorMessage message = new ErrorMessage(HttpStatus.FOUND, exception.getMessage());
+		return ResponseEntity.status(HttpStatus.FOUND).body(message);
+		
+	}
+	
+	@ExceptionHandler(IngredientFoundException.class)
+	public ResponseEntity<ErrorMessage> ingredientFoundException(IngredientFoundException exception,
+												WebRequest request) {
+		ErrorMessage message = new ErrorMessage(HttpStatus.FOUND, exception.getMessage());
+		return ResponseEntity.status(HttpStatus.FOUND).body(message);
+		
+	}
+	
+	
+	
 }

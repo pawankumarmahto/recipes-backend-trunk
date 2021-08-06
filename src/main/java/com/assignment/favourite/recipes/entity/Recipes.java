@@ -1,24 +1,20 @@
 package com.assignment.favourite.recipes.entity;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.assignment.favourite.recipes.converter.LocalDateTimeConverter;
 
 
 @Entity
@@ -40,11 +36,9 @@ public class Recipes {
 	private String cookingInstruction;
 	
 	
-	@Convert(converter = LocalDateTimeConverter.class)
-	private LocalDateTime preparedAt;
+	private Timestamp preparedAt;
 	
-	@Convert(converter = LocalDateTimeConverter.class)
-	private LocalDateTime updatedAt;
+	private Timestamp updatedAt;
 
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name="RECIPESID_FK")
@@ -67,11 +61,11 @@ public class Recipes {
 	}
 
 
-	public LocalDateTime getUpdatedAt() {
+	public Timestamp getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(LocalDateTime updatedAt) {
+	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
@@ -107,11 +101,11 @@ public class Recipes {
 		this.usedingredients = usedingredients;
 	}
 
-	public LocalDateTime getPreparedAt() {
+	public Timestamp getPreparedAt() {
 		return preparedAt;
 	}
 
-	public void setPreparedAt(LocalDateTime preparedAt) {
+	public void setPreparedAt(Timestamp preparedAt) {
 		this.preparedAt = preparedAt;
 	}
 

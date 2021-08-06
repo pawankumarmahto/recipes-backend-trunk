@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.assignment.favourite.recipes.entity.Ingredients;
+import com.assignment.favourite.recipes.exception.IngredientFoundException;
 import com.assignment.favourite.recipes.exception.IngredientNotFoundException;
 import com.assignment.favourite.recipes.service.IngredientService;
 
@@ -33,7 +34,7 @@ public class IngredientController {
 	}
 
 	@RequestMapping(value = "/level2/addIngredient", method = RequestMethod.POST)
-	public Ingredients addIngredient(@RequestBody Ingredients ingredient) {
+	public Ingredients addIngredient(@RequestBody Ingredients ingredient)  throws IngredientFoundException {
 		logger.info(" In addIngredient() of  IngredientController ");
 		return ingredientService.saveIngredient(ingredient);
 	}
