@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.assignment.favourite.recipes.entity.Ingredients;
+import com.assignment.favourite.recipes.exception.IngredientNotFoundException;
 import com.assignment.favourite.recipes.service.IngredientService;
 
 
@@ -38,10 +39,10 @@ public class IngredientController {
 	}
 	
 	@RequestMapping(value = "/level2/deleteIngredient/{id}", method = RequestMethod.DELETE)
-	public String deleteIngredient(@PathVariable("id") Long ingredientId) {
+	public String deleteIngredient(@PathVariable("id") Long ingredientId) throws IngredientNotFoundException{
 		logger.info(" In deleteIngredient() of  IngredientController ");
 		 ingredientService.deleteIngredient(ingredientId);
-		 return "Ingredient Deleted Successfully";
+		 return "Ingredient is deleted successfully";
 	}
 	
 }
