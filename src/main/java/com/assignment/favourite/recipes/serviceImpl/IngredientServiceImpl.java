@@ -16,23 +16,25 @@ import com.assignment.favourite.recipes.service.IngredientService;
 @Service
 public class IngredientServiceImpl  implements IngredientService{
 
-	private static final Logger logger = LoggerFactory.getLogger(IngredientController.class);
+	private static final Logger logger = LoggerFactory.getLogger(IngredientServiceImpl.class);
 
 	@Autowired
 	private IngredientRepository repository; 
 	
 	public List<Ingredients> fetchIngredients() {
+		logger.info(" In fetchIngredients() of  IngredientServiceImpl ");
 		return repository.findAll();
 	}
 	
 	public Ingredients saveIngredient(Ingredients ingredient) {
-		
+		logger.info(" In saveIngredient() of  IngredientServiceImpl ");
 		ingredient.setCreatedAt(LocalDateTime.now());
 		ingredient.setUpdatedAt(LocalDateTime.now());
 		return repository.save(ingredient);
 	}
 	
 	public void deleteIngredient(Long ingredientId) {
+		logger.info(" In deleteIngredient() of  IngredientServiceImpl ");
 		 repository.deleteById(ingredientId);
 	}
 	
