@@ -1,9 +1,9 @@
 package com.assignment.favourite.recipes.service;
 
-import com.assignment.favourite.recipes.entity.User;
+import com.assignment.favourite.recipes.entity.Users;
 
 public interface UserService {
 	
-	public String saveUser(User user) ;
+	public String saveUser(Users user) ;
 
 }

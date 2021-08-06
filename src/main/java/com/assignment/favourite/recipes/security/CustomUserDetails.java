@@ -6,34 +6,35 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
-import com.assignment.favourite.recipes.entity.User;
+import com.assignment.favourite.recipes.entity.Users;
 
 
-public class CustomUserDetails extends User implements UserDetails {
+public class CustomUserDetails  implements UserDetails {
 	
-	private User user;
-	public CustomUserDetails( User user){
-		super(user);
+	private Users user;
+	public CustomUserDetails( Users user){
+		//super(user);
 		this.user=user;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return getRoles().stream().map(role->new SimpleGrantedAuthority("ROLE_"+ role.getRole())).
-		collect(Collectors.toList());
+		return user.getRoles().stream().map(role->new SimpleGrantedAuthority("ROLE_"+role.getRole())). collect(Collectors.toList());
 	}
 
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return super.getPassword();
+		return user.getPassword();
+		
 	}
 
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return super.getUserName();
+		return user.getUserName();
 	}
 
 	@Override

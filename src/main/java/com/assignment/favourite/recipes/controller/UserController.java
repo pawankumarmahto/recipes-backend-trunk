@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.assignment.favourite.recipes.entity.Recipes;
-import com.assignment.favourite.recipes.entity.User;
+import com.assignment.favourite.recipes.entity.Users;
 import com.assignment.favourite.recipes.service.UserService;
 
 @RestController
@@ -18,7 +18,7 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping(value = "/level2/addUser", method = RequestMethod.POST)
-	public String  addUser(@RequestBody User user) {
+	public String  addUser(@RequestBody Users user) {
 		return userService.saveUser(user);
 	}
 

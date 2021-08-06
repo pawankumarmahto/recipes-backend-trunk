@@ -1,25 +1,43 @@
 package com.assignment.favourite.recipes.security;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
-import com.assignment.favourite.recipes.entity.User;
+import com.assignment.favourite.recipes.entity.Role;
+import com.assignment.favourite.recipes.entity.Users;
 import com.assignment.favourite.recipes.repository.UserRepository;
 
-@Component
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
 	
+	@Autowired
 	private UserRepository  userRepository;
-	@Override
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		User user = userRepository.findByUserName(userName);
-		if (user==null) {
-			throw new UsernameNotFoundException("");
-		}
-		return new CustomUserDetails(user);
-		
-	}
+	
+	@Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+  @Override 
+  public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException { 
+	  Optional<Users> optionalUser = userRepository.findByUserName(userName); 
+	  Users users=null;
+	  if(optionalUser.isPresent()) {
+        	 users  = optionalUser.get();
+	  }  else {
+        	throw new UsernameNotFoundException("User Name is not Found");
+        } 
+       return new CustomUserDetails(users);
+  
+  }
+	 
+	
 
 }

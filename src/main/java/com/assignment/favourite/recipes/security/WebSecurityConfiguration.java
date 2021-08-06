@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -18,21 +19,28 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
-	@Bean
-	AuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-		provider.setUserDetailsService(userDetailsService);
-		//provider.setPasswordEncoder(new BCryptPasswordEncoder());
-		
-		return provider;
-		
-	}
+	public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(bCryptPasswordEncoder);
+         
+        return authProvider;
+    }
+ 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
+    }
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/level1**").hasAnyAuthority("USER")
-		.antMatchers("/level1**", "/level2**").hasAuthority("ADMIN")
-		.anyRequest().authenticated().and().httpBasic();
+	public void configure(HttpSecurity http) throws Exception {
+		http 
+		.authorizeRequests().antMatchers("/").hasAnyRole("ADMIN", "USER")
+		.antMatchers("/level1/**").hasAnyRole("ADMIN", "USER")
+		.anyRequest().authenticated().and().httpBasic()
+        ;
 	}
-	
 }
