@@ -13,11 +13,18 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler{
 	
 	@ExceptionHandler(RecipesNotFoundException.class)
-	public ResponseEntity<ErrorMessage> RecipesNotFoundException(RecipesNotFoundException exception,
+	public ResponseEntity<ErrorMessage> recipesNotFoundException(RecipesNotFoundException exception,
 												WebRequest request) {
 		ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
 		
 	}
 
+	@ExceptionHandler(IngredientNotFoundException.class)
+	public ResponseEntity<ErrorMessage> ingredientNotFoundException(IngredientNotFoundException exception,
+												WebRequest request) {
+		ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+		
+	}
 }

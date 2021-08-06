@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.assignment.favourite.recipes.controller.IngredientController;
 import com.assignment.favourite.recipes.entity.Ingredients;
+import com.assignment.favourite.recipes.exception.IngredientNotFoundException;
 import com.assignment.favourite.recipes.repository.IngredientRepository;
 import com.assignment.favourite.recipes.service.IngredientService;
 
@@ -33,9 +33,13 @@ public class IngredientServiceImpl  implements IngredientService{
 		return repository.save(ingredient);
 	}
 	
-	public void deleteIngredient(Long ingredientId) {
+	public void deleteIngredient(Long ingredientId) throws IngredientNotFoundException{
 		logger.info(" In deleteIngredient() of  IngredientServiceImpl ");
-		 repository.deleteById(ingredientId);
+		if (repository.existsById(ingredientId)) {
+			repository.deleteById(ingredientId);
+		} else {
+			throw new IngredientNotFoundException("Ingredient not found");
+		}
 	}
 	
 }
