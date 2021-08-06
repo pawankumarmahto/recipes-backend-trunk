@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="USER_TBL")
-public class User {
+public class Users {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,11 +35,11 @@ public class User {
 			@JoinColumn(name="role_Id"))
 	private Set<Role> roles;
 	
-	public User() {
+	public Users() {
 		
 	}
 
-	public User(User user) {
+	public Users(Users user) {
 		super();
 		this.userId = user.userId;
 		this.userName = user.userName;
