@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.assignment.favourite.recipes.entity.Users;
+import com.assignment.favourite.recipes.exception.UserFoundException;
 import com.assignment.favourite.recipes.repository.UserRepository;
 import com.assignment.favourite.recipes.service.UserService;
 
@@ -19,15 +20,12 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	
 	@Override
-	public String saveUser(Users user) {
-		logger.info(" In v() of  UserServiceImpl ");
+	public void saveUser(Users user) throws UserFoundException{
+		logger.info(" In saveUser() of  UserServiceImpl ");
 		 Optional<Users> optionalUser = userRepository.findByUserName(user.getUserName());
-	        if(optionalUser.isPresent()) {
-	        	return "Con not add, User is already exist.";
-	        }
-	        else {
-			userRepository.save(user);
-			return "Recipe is saved successfully";
-		}
+         if(optionalUser.isPresent()) {
+        	throw new  UserFoundException("Con not add, User is already exist.");
+         }
+         userRepository.save(user);
 	}
 }

@@ -51,7 +51,7 @@ public class RecipesController {
 	public String deleteAllRecipes() {
 		logger.info(" In deleteAllRecipes() of  RecipesController ");
 		 recepesService.deleteAllRecipes();
-		 return "Recipes is deleted Successfully";
+		 return "Recipe is deleted Successfully";
 	}
 
 	@RequestMapping(value = "/level2/updateRecipes", method = RequestMethod.PUT)

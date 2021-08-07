@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.assignment.favourite.recipes.entity.Users;
+import com.assignment.favourite.recipes.exception.UserFoundException;
 import com.assignment.favourite.recipes.service.UserService;
 
 @RestController
@@ -20,9 +21,10 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping(value = "/level2/addUser", method = RequestMethod.POST)
-	public String  addUser(@RequestBody Users user) {
+	public String  addUser(@RequestBody Users user) throws UserFoundException{
 		logger.info(" In addUser() of  UserController ");
-		return userService.saveUser(user);
+		 userService.saveUser(user);
+		 return "User is added successfully";
 	}
 
 }

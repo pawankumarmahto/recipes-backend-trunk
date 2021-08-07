@@ -13,29 +13,21 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.MockMvc;
 
 import com.assignment.favourite.recipes.controller.RecipesController;
-import com.assignment.favourite.recipes.entity.Ingredients;
 import com.assignment.favourite.recipes.entity.Recipes;
 import com.assignment.favourite.recipes.entity.UsedIngredients;
 import com.assignment.favourite.recipes.exception.RecipesNotFoundException;
 import com.assignment.favourite.recipes.repository.RecipesRepository;
 
 @SpringBootTest
-@AutoConfigureMockMvc
-//@WebMvcTest(controllers = SendMoneyController.class)
 public class RecipesTest {
 	
-	@Autowired
-	private MockMvc mockMvc;
-	
 	@MockBean
-	private RecipesRepository  RecipesRepository;
+	private RecipesRepository  recipesRepository;
 	
 	@Autowired
 	private RecipesController recipesController;
@@ -47,8 +39,8 @@ public class RecipesTest {
 	 */
 	@Test
 	public void addRecipesTestWithPositiveScenario() throws Exception{
-		Mockito.when(RecipesRepository.findByRecipesName(Mockito.anyString())).thenReturn(null);
-		Mockito.when(RecipesRepository.save(Mockito.any(Recipes.class))).thenReturn(getRecipes());
+		Mockito.when(recipesRepository.findByRecipesName(Mockito.anyString())).thenReturn(null);
+		Mockito.when(recipesRepository.save(Mockito.any(Recipes.class))).thenReturn(getRecipes());
 		String result = recipesController.addRecipes(getRecipes());
 		assertEquals( "Recipe is saved successfully", result);
 	}
@@ -60,11 +52,8 @@ public class RecipesTest {
 	 */
 	@Test
 	public void addRecipesTestWithNegativeScenario() throws Exception{
-		
-		Optional<Recipes> optional = Optional.of(getRecipes());
-		//todo
-		//Mockito.when(RecipesRepository.findByRecipesName(Mockito.anyString())).thenReturn(optional);
-		Mockito.when(RecipesRepository.save(Mockito.any(Recipes.class))).thenReturn(getRecipes());
+		Mockito.when(recipesRepository.findByRecipesName(Mockito.anyString())).thenReturn( Optional.of(getRecipes()));
+		Mockito.when(recipesRepository.save(Mockito.any(Recipes.class))).thenReturn(getRecipes());
 		String result = recipesController.addRecipes(getRecipes());
 		assertEquals( "Con not add, Recipes is already exist", result);
 	}
@@ -75,11 +64,11 @@ public class RecipesTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void ResponseEntityWithpositiveScenario() throws Exception{
+	public void fetchRecipesWithpositiveScenario() throws Exception{
 		
 		List<Recipes> recipesList = new ArrayList<>();
 		recipesList.add(getRecipes());
-		Mockito.when(RecipesRepository.findAll()).thenReturn(recipesList);
+		Mockito.when(recipesRepository.findAll()).thenReturn(recipesList);
 		ResponseEntity<List<Recipes>> result = recipesController.fetchRecipes();
 		assertNotNull(result.getBody());
 
@@ -91,10 +80,10 @@ public class RecipesTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void ResponseEntityWithNegativeScenario() throws Exception{
+	public void fetchRecipesWithNegativeScenario() throws Exception{
 		List<Recipes> recipesList = new ArrayList<>();
 		recipesList.add(getRecipes());
-		Mockito.when(RecipesRepository.findAll()).thenReturn(null);
+		Mockito.when(recipesRepository.findAll()).thenReturn(null);
 		ResponseEntity<List<Recipes>> result = recipesController.fetchRecipes();
 		assertNull(result.getBody());
 	}
@@ -107,8 +96,8 @@ public class RecipesTest {
 	@Test
 	public void deleteRecipesWithPositiveScenario() throws RecipesNotFoundException{
 		
-		Mockito.when(RecipesRepository.existsById(Mockito.anyLong())).thenReturn(true);
-		Mockito.doNothing().when(RecipesRepository).deleteById(Mockito.anyLong());
+		Mockito.when(recipesRepository.existsById(Mockito.anyLong())).thenReturn(true);
+		Mockito.doNothing().when(recipesRepository).deleteById(Mockito.anyLong());
 		String result = recipesController.deleteRecipe(10L);
 		assertEquals( "Recipe is deleted successfully", result);
 	}
@@ -121,7 +110,7 @@ public class RecipesTest {
 	@Test
 	public void deleteRecipesWithNegativeScenario() throws RecipesNotFoundException{
 		
-		Mockito.when(RecipesRepository.existsById(Mockito.anyLong())).thenReturn(false);
+		Mockito.when(recipesRepository.existsById(Mockito.anyLong())).thenReturn(false);
 		try {
 			 recipesController.deleteRecipe(10L);
 		} catch (RecipesNotFoundException ex) {
@@ -136,8 +125,8 @@ public class RecipesTest {
 	 */
 	@Test
 	public void updateRecipesWithPositiveScenario() throws Exception{
-		Mockito.when(RecipesRepository.existsById(Mockito.anyLong())).thenReturn(true);
-		Mockito.when(RecipesRepository.save(Mockito.any(Recipes.class))).thenReturn(getRecipes());
+		Mockito.when(recipesRepository.existsById(Mockito.anyLong())).thenReturn(true);
+		Mockito.when(recipesRepository.save(Mockito.any(Recipes.class))).thenReturn(getRecipes());
 		String result = recipesController.updateRecipes(getRecipes());
 		assertEquals( "Recipe is updated successfully", result);
 	}
@@ -149,7 +138,7 @@ public class RecipesTest {
 	 */
 	@Test
 	public void updateRecipesWithNegativeeScenario() throws Exception{
-		Mockito.when(RecipesRepository.existsById(Mockito.anyLong())).thenReturn(false);
+		Mockito.when(recipesRepository.existsById(Mockito.anyLong())).thenReturn(false);
 		try {
 			 recipesController.updateRecipes(getRecipes());
 		} catch (RecipesNotFoundException ex) {

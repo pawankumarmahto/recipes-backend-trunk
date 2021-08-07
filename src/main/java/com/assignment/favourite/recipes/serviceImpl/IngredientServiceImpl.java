@@ -7,9 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.assignment.favourite.recipes.converter.DateTimeConverter;
 import com.assignment.favourite.recipes.entity.Ingredients;
-import com.assignment.favourite.recipes.entity.Users;
 import com.assignment.favourite.recipes.exception.IngredientFoundException;
 import com.assignment.favourite.recipes.exception.IngredientNotFoundException;
 import com.assignment.favourite.recipes.repository.IngredientRepository;
@@ -31,7 +31,7 @@ public class IngredientServiceImpl  implements IngredientService{
 	public Ingredients saveIngredient(Ingredients ingredient) throws IngredientFoundException {
 		logger.info(" In saveIngredient() of  IngredientServiceImpl ");
 		
-		Optional<Users> optional = repository.findByIngredientsName(ingredient.getIngredientsName()); 
+		Optional<Ingredients> optional = repository.findByIngredientsName(ingredient.getIngredientsName()); 
 		if(optional.isPresent()) {
 			throw new IngredientFoundException("Ingredient already exists, can't be added!");
 		}  

@@ -44,6 +44,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		
 	}
 	
-	
-	
+	@ExceptionHandler(UserFoundException.class)
+	public ResponseEntity<ErrorMessage> userFoundException(UserFoundException exception,
+												WebRequest request) {
+		ErrorMessage message = new ErrorMessage(HttpStatus.FOUND, exception.getMessage());
+		return ResponseEntity.status(HttpStatus.FOUND).body(message);
+		
+	}
 }

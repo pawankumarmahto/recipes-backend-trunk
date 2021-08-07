@@ -11,5 +11,5 @@ import com.assignment.favourite.recipes.entity.Users;
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredients, Long>{
 
-	public Optional<Users> findByIngredientsName(String ingredientsName);
+	public Optional<Ingredients> findByIngredientsName(String ingredientsName);
 }
