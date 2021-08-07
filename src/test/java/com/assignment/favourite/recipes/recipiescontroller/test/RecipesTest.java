@@ -41,7 +41,7 @@ public class RecipesTest {
 	public void addRecipesTestWithPositiveScenario() throws Exception{
 		Mockito.when(recipesRepository.findByRecipesName(Mockito.anyString())).thenReturn(null);
 		Mockito.when(recipesRepository.save(Mockito.any(Recipes.class))).thenReturn(getRecipes());
-		String result = recipesController.addRecipes(getRecipes());
+		String result = recipesController.addRecipe(getRecipes());
 		assertEquals( "Recipe is saved successfully", result);
 	}
 	
@@ -54,7 +54,7 @@ public class RecipesTest {
 	public void addRecipesTestWithNegativeScenario() throws Exception{
 		Mockito.when(recipesRepository.findByRecipesName(Mockito.anyString())).thenReturn( Optional.of(getRecipes()));
 		Mockito.when(recipesRepository.save(Mockito.any(Recipes.class))).thenReturn(getRecipes());
-		String result = recipesController.addRecipes(getRecipes());
+		String result = recipesController.addRecipe(getRecipes());
 		assertEquals( "Con not add, Recipes is already exist", result);
 	}
 	

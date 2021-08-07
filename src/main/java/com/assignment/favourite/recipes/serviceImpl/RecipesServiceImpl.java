@@ -2,6 +2,7 @@ package com.assignment.favourite.recipes.serviceImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.assignment.favourite.recipes.converter.DateTimeConverter;
+import com.assignment.favourite.recipes.entity.Ingredients;
 import com.assignment.favourite.recipes.entity.Recipes;
+import com.assignment.favourite.recipes.exception.IngredientFoundException;
 import com.assignment.favourite.recipes.exception.RecipesFoundException;
 import com.assignment.favourite.recipes.exception.RecipesNotFoundException;
 import com.assignment.favourite.recipes.repository.RecipesRepository;
@@ -29,9 +32,11 @@ public class RecipesServiceImpl implements RecipesService {
 	
 	public void saveRecipes(Recipes recipes) throws RecipesFoundException {
 		logger.info(" In saveRecipes() of  RecipesServiceImpl ");
-		if (repository.existsById(recipes.getRecipesId())) {
-			throw new RecipesFoundException("Recipe already exists, can't be added!");
-		} 
+		
+		Optional<Recipes> optional = repository.findByRecipesName(recipes.getRecipesName()); 
+		if(optional.isPresent()) {
+			throw new RecipesFoundException("Recipes already exists, can't be added!");
+		}  
 		recipes.setPreparedAt(DateTimeConverter.getCurrentDateTime());
 		recipes.setUpdatedAt(DateTimeConverter.getCurrentDateTime());
 		repository.save(recipes);
