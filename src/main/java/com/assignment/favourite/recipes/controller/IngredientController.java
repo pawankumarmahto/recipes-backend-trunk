@@ -51,10 +51,10 @@ public class IngredientController {
 		 return "Ingredient is deleted successfully";
 	}
 	
-	@RequestMapping(value = "/level2/deleteIngredient/{IngredientName}", method = RequestMethod.DELETE)
-	public String deleteIngredientByName(@PathVariable("IngredientName") String IngredientName) throws IngredientException{
+	@RequestMapping(value = "/level2/deleteIngredientByName/{ingredientName}", method = RequestMethod.DELETE)
+	public String deleteIngredientByName(@PathVariable("ingredientName") String ingredientName) throws IngredientException{
 		logger.info(" In deleteIngredient() of  IngredientController ");
-		 ingredientService.deleteIngredientByName(IngredientName);
+		 ingredientService.deleteIngredientByName(ingredientName);
 		 return "Ingredient is deleted successfully";
 	}
 }

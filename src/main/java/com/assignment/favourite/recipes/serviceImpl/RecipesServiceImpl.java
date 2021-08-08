@@ -163,9 +163,9 @@ public class RecipesServiceImpl implements RecipesService {
 	/**
 	 * Function to delete recipe By deleteRecipeByName
 	 *  Checking first if recipe is available, if not  throwing the message :Recipe not found, can't be deleted!
-	 * if recipe is available proceeding with delete recipe by id
+	 * if recipe is available proceeding with delete recipe by recipe name
 	 */
-	public void deleteRecipeByName(String RecipesName)  throws RecipesException {
+	public void deleteRecipeByName(String recipesName)  throws RecipesException {
 		logger.info(" In deleteRecipeByName() of  RecipesServiceImpl ");
 		
 		ErrorMessage message = new ErrorMessage();
@@ -173,7 +173,7 @@ public class RecipesServiceImpl implements RecipesService {
 		/**
 		 * checking the recipe if available by recipe name
 		 */
-		Optional<Recipes> optional = repository.findByRecipesName(RecipesName); 
+		Optional<Recipes> optional = repository.findByRecipesName(recipesName); 
 		if(!optional.isPresent()) {
 			logger.error("In deleteRecipeByName() of  RecipesServiceImpl :Recipe does not found, can't be deleted!");
 			message.setStatus(HttpStatus.NOT_FOUND);
@@ -244,10 +244,10 @@ public class RecipesServiceImpl implements RecipesService {
 		ErrorMessage message = new ErrorMessage();
 		RecipesException	ex =  new RecipesException();
 		/**
-		 * checking the recipe if available by recipe name
+		 * check the recipe if available by recipe id
 		 */
-		Optional<Recipes> optional = repository.findByRecipesName(recipesDTO.getRecipesName()); 
-		if(!optional.isPresent()) {
+		//Optional<Recipes> optional = repository.findByRecipesName(recipesDTO.getRecipesName()); 
+		if(!repository.existsById(recipesDTO.getRecipesId())) {
 			logger.error("In updateRecipe() of  RecipesServiceImpl :Recipe does not exists can not be updated!");
 			message.setStatus(HttpStatus.NOT_FOUND);
 			message.setMessage("Recipe does not exists can not be updated!");
@@ -260,6 +260,7 @@ public class RecipesServiceImpl implements RecipesService {
 		Recipes recipe = new Recipes();
 		BeanUtils.copyProperties(recipesDTO, recipe);
 		
+		recipe.setUpdatedAt((DateTimeConverter.getCurrentDateTime()));
 		Set<UsedIngredients> usedIngredients =recipesDTO.getUsedingredients().stream()
 				.map(ingredient-> new UsedIngredients(ingredient.getId(), ingredient.getUsedIngredientId(),ingredient.getUsedIngredientsName() ))
        		 .collect(Collectors.toSet());

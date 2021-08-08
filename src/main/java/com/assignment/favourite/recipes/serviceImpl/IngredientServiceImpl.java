@@ -157,7 +157,7 @@ public class IngredientServiceImpl  implements IngredientService{
 		Optional<Ingredients> optional = repository.findByIngredientsName(ingredientName); 
 		if(!optional.isPresent()) {
 			logger.error(" In deleteIngredientByName() of  IngredientServiceImpl : Ingredient not found!");
-			message.setStatus(HttpStatus.FOUND);
+			message.setStatus(HttpStatus.NOT_FOUND);
 			message.setMessage("Ingredient does not exists, can't be deleted!");
 			ex.setErrorMessage(message);
 			throw ex;
@@ -166,8 +166,7 @@ public class IngredientServiceImpl  implements IngredientService{
 		 * deleting the ingredient by ingredient Id
 		 */
 		try {
-			Long ingredientId = optional.get().getIngredientId();
-			repository.deleteById(ingredientId);
+			repository.deleteByIngredientsName(ingredientName);
 		}catch(Exception exe) {
 			logger.error(" In deleteIngredientByName() of  IngredientServiceImpl : Something went wrong while deleting Ingredient !");
 			message.setStatus(HttpStatus.BAD_REQUEST);

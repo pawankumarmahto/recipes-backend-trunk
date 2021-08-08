@@ -47,9 +47,70 @@
 					tr.push('<td>&nbsp;<button class=\'delete\' id=' + json[i].recipesId + '>Remove Recipe</button> &nbsp;</td>');
 					tr.push('</tr>');
 				}
-				$('table').append($(tr.join('')));
+				$('#table1').append($(tr.join('')));
 			});
 
+			$.getJSON('http://localhost:8082/level1/fetchIngredients', function(json) {
+				var tr=[];
+				for (var i = 0; i < json.length; i++) {
+					tr.push('<tr>');
+					tr.push('<td>' + json[i].ingredientsName + '</td>');
+					tr.push('<td>&nbsp;<button class=\'deleteIngredient\' ingredientId=' + json[i].ingredientId + '>Remove Ingredient</button> &nbsp;</td>');
+					tr.push('</tr>');
+				}
+				$('#table2').append($(tr.join('')));
+			});
+			
+			$(document).delegate('#addNewingredient', 'click', function(event) {
+				event.preventDefault();
+				
+				var ingredientsName = $('#ingredientsName').val();
+				
+				var ingredient = new Object();
+				ingredient.ingredientsName=ingredientsName;
+				$.ajax({
+					type: "POST",
+					contentType: "application/json; charset=utf-8",
+					url: "http://localhost:8082/level2/addIngredient",
+					data: JSON.stringify(ingredient),
+					cache: false,
+					success: function(result) {
+						$("#msg").html( "<span style='color: green'>Ingredient added successfully</span>" );
+						window.setTimeout(function(){location.reload()},1000)
+					},
+					error: function(err) {
+						$("#msg").html( "<span style='color: red'>Name is required</span>" );
+					}
+				});
+			});
+			
+			
+			 $(document).delegate('.deleteIngredient', 'click', function() { 
+					if (confirm('Do you really want to delete record?')) {
+						var id = $(this).attr('ingredientId');
+						console.log(id);
+						var parent = $(this).parent().parent();
+						$.ajax({
+							type: "DELETE",
+							url: "http://localhost:8082/level2/deleteIngredient/" + id,
+							cache: false,
+							success: function() {
+								parent.fadeOut('slow', function() {
+									$(this).remove();
+								});
+								location.reload(true)
+							},
+							error: function() {
+								$('#err').html('<span style=\'color:red; font-weight: bold; font-size: 30px;\'>Error deleting record').fadeIn().fadeOut(4000, function() {
+									$(this).remove();
+								});
+							}
+						});
+					}
+				}); 
+			
+			
+			
 			$(document).delegate('#addNew', 'click', function(event) {
 				event.preventDefault();
 				var recipesName = $('#recipesName').val();
@@ -121,8 +182,6 @@
 	<form id="add" action="#" >
 	<div class="w3-container">
  
- <!--  <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Add Recipe</button> -->
-
   <div id="id01" class="w3-modal">
     <div class="w3-modal-content">
       <div class="w3-container">
@@ -160,7 +219,7 @@
 </form>
 <br><br>
 
-	<table border="1" cellspacing="0" cellpadding="5">
+	<table id ="table1" border="1" cellspacing="0" cellpadding="5">
 		<tr>
 			<th>Recipe Name</th>
 			<th>Recipes Type</th>
@@ -171,5 +230,38 @@
 			<th>Action</th>
 		</tr>
 	</table>
+	
+	<br><br>
+	<h4>Ingredients</h4>
+	<form id="addIngredient" action="#" >
+	<div class="w3-container">
+ 
+  <div id="id011" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+       <!--  <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span> -->
+        
+        	<div id="msg"/>
+        <p>
+			<label>Ingredient Name</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="text" id="ingredientsName" name="ingredientsName">
+		</p>
+		
+		<p>
+			<input type="submit" id="addNewingredient" value="Add Ingredient">
+		</p>
+		</div>
+    </div>
+  </div>
+</div>
+</form>
+	
+	<table id="table2" border="1" cellspacing="0" cellpadding="5">
+		<tr>
+			<th>Ingredient Name</th>
+			<th>Action</th>
+		</tr>
+	</table>
+	
 </body>
 </html>

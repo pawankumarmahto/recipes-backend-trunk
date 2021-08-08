@@ -30,20 +30,9 @@ public class Users {
 	private char active;
 	private String password;
 	
-	/*
-	 * @OneToMany(cascade=CascadeType.MERGE, fetch = FetchType.EAGER)
-	 * 
-	 * @JoinTable(name="user_role", joinColumns=
-	 * 
-	 * @JoinColumn(name="user_Id"), inverseJoinColumns=
-	 * 
-	 * @JoinColumn(name="role_Id")) private Set<Role> roles;
-	 */
-	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name="USERID_FK")
 	private Set<UserRole> userRole = new HashSet<>();
-
 	
 	public Users() {
 		

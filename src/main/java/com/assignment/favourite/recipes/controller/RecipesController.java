@@ -55,7 +55,7 @@ public class RecipesController {
 		 return "Recipe is deleted successfully";
 	}
 	
-	@RequestMapping(value = "/level2/delete/{recipeName}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/level2/deleteByName/{recipeName}", method = RequestMethod.DELETE)
 	public String deleteRecipeByrecipeName(@PathVariable("recipeName") String recipeName) throws RecipesException {
 		logger.info(" In deleteRecipe() of  RecipesController ");
 		 recepesService.deleteRecipeByName(recipeName);
