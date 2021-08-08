@@ -1,29 +1,18 @@
-package com.assignment.favourite.recipes.entity;
+package com.assignment.favourite.recipes.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.io.Serializable;
 
-@Entity
-@Table(name="UsedIngredients_TBL")
-public class UsedIngredients {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", updatable = false, nullable = false)
+public class UsedIngredientsDTO implements Serializable {
+
+	private static final long serialVersionUID = 1001L;
 	private Integer id;
-	
 	private Integer usedIngredientId;
-	
-	@Column(length = 25)
 	private String usedIngredientsName;	
 	
-	public UsedIngredients() {
+	public UsedIngredientsDTO() {
 	}
 	
-	public UsedIngredients(Integer id, Integer usedIngredientId, String usedIngredientsName) {
+	public UsedIngredientsDTO(Integer id, Integer usedIngredientId, String usedIngredientsName) {
 		this.id = id;
 		this.usedIngredientId = usedIngredientId;
 		this.usedIngredientsName = usedIngredientsName;
@@ -52,7 +41,5 @@ public class UsedIngredients {
 	public void setUsedIngredientsName(String usedIngredientsName) {
 		this.usedIngredientsName = usedIngredientsName;
 	}
-
-	
 
 }

@@ -8,6 +8,14 @@ import org.springframework.stereotype.Repository;
 import com.assignment.favourite.recipes.entity.Ingredients;
 import com.assignment.favourite.recipes.entity.Users;
 
+/**
+ * {@link IngredientRepository}
+ * 
+ * IngredientRepository interface is for JPA functionality and to perform CRUD operations.
+ * 
+ * @author Pawan.Mahto
+ */
+
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredients, Long>{
 

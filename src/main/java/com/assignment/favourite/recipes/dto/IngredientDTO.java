@@ -1,31 +1,26 @@
-package com.assignment.favourite.recipes.entity;
+package com.assignment.favourite.recipes.dto;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+public class IngredientDTO implements Serializable {
 
-
-@Entity
-@Table(name="INGREDIENTS_TBL")
-public class Ingredients {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ingredientId", updatable = false, nullable = false)
+	private static final long serialVersionUID = 1001L;
 	private Long ingredientId;
-	
-	@Column(length = 100, unique = true, nullable = false)
 	private String ingredientsName;
-	
 	private Timestamp createdAt;
-	
 	private Timestamp updatedAt;
 	
+	public IngredientDTO() {
+	}
 	
+	public IngredientDTO(Long ingredientId, String ingredientsName, Timestamp createdAt, Timestamp updatedAt) {
+		this.ingredientId = ingredientId;
+		this.ingredientsName = ingredientsName;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+
 	public Long getIngredientId() {
 		return ingredientId;
 	}

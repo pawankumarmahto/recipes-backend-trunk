@@ -1,5 +1,6 @@
 package com.assignment.favourite.recipes.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -23,17 +24,26 @@ public class Users {
 	@Column(name = "user_Id", updatable = false, nullable = false)
 	private Long userId;
 	
-	@Column(name = "user_name", length = 100, unique = true, nullable = false)
+	@Column(name = "user_name", length = 100, nullable = false)
 	private String userName;
 	private String email;
 	private char active;
 	private String password;
 	
-	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name="user_role", joinColumns= 
-			@JoinColumn(name="user_Id"), inverseJoinColumns=
-			@JoinColumn(name="role_Id"))
-	private Set<Role> roles;
+	/*
+	 * @OneToMany(cascade=CascadeType.MERGE, fetch = FetchType.EAGER)
+	 * 
+	 * @JoinTable(name="user_role", joinColumns=
+	 * 
+	 * @JoinColumn(name="user_Id"), inverseJoinColumns=
+	 * 
+	 * @JoinColumn(name="role_Id")) private Set<Role> roles;
+	 */
+	
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
+	@JoinColumn(name="USERID_FK")
+	private Set<UserRole> userRole = new HashSet<>();
+
 	
 	public Users() {
 		
@@ -45,7 +55,7 @@ public class Users {
 		this.userName = user.userName;
 		this.email = user.email;
 		this.active = user.active;
-		this.roles = user.roles;
+		this.userRole = user.userRole;
 		this.password = user.password;
 	}
 
@@ -81,12 +91,12 @@ public class Users {
 		this.active = active;
 	}
 
-	public Set<Role> getRoles() {
-		return roles;
+	public Set<UserRole> getUserRole() {
+		return userRole;
 	}
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public void setRole(Set<UserRole> userRole) {
+		this.userRole = userRole;
 	}
 
 	public String getPassword() {

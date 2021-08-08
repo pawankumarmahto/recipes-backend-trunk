@@ -2,20 +2,19 @@ package com.assignment.favourite.recipes.service;
 
 import java.util.List;
 
-import com.assignment.favourite.recipes.entity.Recipes;
-import com.assignment.favourite.recipes.exception.RecipesFoundException;
-import com.assignment.favourite.recipes.exception.RecipesNotFoundException;
+import com.assignment.favourite.recipes.dto.RecipesDTO;
+import com.assignment.favourite.recipes.exception.RecipesException;
 
 public interface RecipesService {
 
-	public List<Recipes> fetchRecipes();
+	public List<RecipesDTO> fetchRecipes()  throws RecipesException;
 	
-	public void saveRecipes(Recipes recipes) throws RecipesFoundException;
+	public void saveRecipe(RecipesDTO recipesDTO) throws   RecipesException;
 	
-	public void deleteRecipes(Long RecipesId) throws RecipesNotFoundException;
+	public void deleteRecipe(Long RecipesId)  throws RecipesException;
 	
-	public void deleteAllRecipes();
+	public void deleteAllRecipes() throws RecipesException;
 	
-	public String  updateRecipes( Recipes recipes) throws RecipesNotFoundException ;
+	public void  updateRecipe(RecipesDTO recipesDTO) throws RecipesException ;
 
 }

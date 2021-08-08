@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.assignment.favourite.recipes.controller.IngredientController;
+import com.assignment.favourite.recipes.dto.IngredientDTO;
 import com.assignment.favourite.recipes.entity.Ingredients;
 import com.assignment.favourite.recipes.repository.IngredientRepository;
 
@@ -30,10 +31,14 @@ public class IntgredientTest {
 	@Test
 	public void addIngredientWithPositiveScenario () throws Exception {
 		Ingredients ingredient = new Ingredients();
+		ingredient.setIngredientId(10L);
+		ingredient.setIngredientsName("Jira");
+		
+		IngredientDTO ingredientDTO = new IngredientDTO();
 		Mockito.when(ingredientRepository.findByIngredientsName(Mockito.anyString())).thenReturn( Optional.of(new Ingredients()));
 		Mockito.when(ingredientRepository.save(Mockito.any(Ingredients.class))).thenReturn(ingredient);
-		ingredient = ingredientController.addIngredient(ingredient);
-		assertNotNull(ingredient);
+		ingredientDTO = ingredientController.addIngredient(ingredientDTO);
+		assertNotNull(ingredientDTO);
 	}
 	
 	@Test
@@ -44,7 +49,8 @@ public class IntgredientTest {
 		Mockito.when(ingredientRepository.findByIngredientsName(Mockito.anyString())).thenReturn( Optional.of(ingredient));
 		
 		try {
-		ingredient = ingredientController.addIngredient(ingredient);
+			IngredientDTO ingredientDTO = new IngredientDTO();
+			ingredientDTO = ingredientController.addIngredient(ingredientDTO);
 		} catch(Exception e) {
 			
 		}
@@ -64,7 +70,7 @@ public class IntgredientTest {
 		List<Ingredients> ingredientList = new ArrayList<>();
 		ingredientList.add(ingredient);
 		Mockito.when(ingredientRepository.findAll()).thenReturn(ingredientList);
-		List<Ingredients> result = ingredientController.fetchIngredients();
+		List<IngredientDTO> result = ingredientController.fetchIngredients();
 		assertNotNull(result);
 
 	}
@@ -76,7 +82,7 @@ public class IntgredientTest {
 	@Test
 	public void fetchIngredientsWithNegativeScenario() throws Exception{
 		Mockito.when(ingredientRepository.findAll()).thenReturn(null);
-		List<Ingredients> result = ingredientController.fetchIngredients();
+		List<IngredientDTO> result = ingredientController.fetchIngredients();
 		assertNull(result);
 
 	}

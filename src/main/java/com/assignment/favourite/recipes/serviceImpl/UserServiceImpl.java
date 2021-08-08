@@ -1,16 +1,30 @@
 package com.assignment.favourite.recipes.serviceImpl;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.assignment.favourite.recipes.dto.UsersDTO;
+import com.assignment.favourite.recipes.entity.UserRole;
 import com.assignment.favourite.recipes.entity.Users;
-import com.assignment.favourite.recipes.exception.UserFoundException;
+import com.assignment.favourite.recipes.exception.ErrorMessage;
+import com.assignment.favourite.recipes.exception.UserException;
 import com.assignment.favourite.recipes.repository.UserRepository;
 import com.assignment.favourite.recipes.service.UserService;
+/**
+ * {@link UserServiceImpl}
+ * 
+ * UserServiceImpl is used to write business logic for User
+ * 
+ * @author Pawan.Mahto
+ *
+ */
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,12 +34,39 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	
 	@Override
-	public void saveUser(Users user) throws UserFoundException{
+	public void saveUser(UsersDTO usersDTO) throws UserException{
 		logger.info(" In saveUser() of  UserServiceImpl ");
-		 Optional<Users> optionalUser = userRepository.findByUserName(user.getUserName());
+		
+		ErrorMessage message = new ErrorMessage();
+		UserException	ex =  new UserException();
+		
+		 Optional<Users> optionalUser = userRepository.findByUserName(usersDTO.getUserName());
          if(optionalUser.isPresent()) {
-        	throw new  UserFoundException("Con not add, User is already exist.");
+        	message.setStatus(HttpStatus.FOUND);
+			message.setMessage("Con not add, User is already exist.");
+			ex.setErrorMessage(message);
+			throw ex;
          }
-         userRepository.save(user);
+         /**
+          * Converting UserDTO to Users Object  to save into DB
+          */
+         Users user = new Users();
+         user.setUserName(usersDTO.getUserName());
+         user.setPassword(usersDTO.getPassword());
+         user.setEmail(usersDTO.getEmail());
+         user.setActive(usersDTO.getActive());
+         
+         Set<UserRole> roles = usersDTO.getRoles().stream().map(role-> new UserRole(role.getId(), role.getUserRoleId(), role.getUserRoleName()))
+        		 .collect(Collectors.toSet());
+         
+         user.setRole(roles);
+         try {
+        	 userRepository.save(user);
+         } catch (Exception exe) {
+ 			message.setStatus(HttpStatus.BAD_REQUEST);
+ 			message.setMessage("Something went wrong while saving User!");
+ 			ex.setErrorMessage(message);
+ 			throw ex;
+ 		}
 	}
 }

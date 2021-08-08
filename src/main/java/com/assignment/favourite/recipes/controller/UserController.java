@@ -8,9 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.assignment.favourite.recipes.entity.Users;
-import com.assignment.favourite.recipes.exception.UserFoundException;
+import com.assignment.favourite.recipes.dto.UsersDTO;
+import com.assignment.favourite.recipes.exception.UserException;
 import com.assignment.favourite.recipes.service.UserService;
+/**
+ * {@link UserController}
+ * 
+ * User controller to handle the request for Add operation
+
+ * @author Pawan.Mahto
+ *
+ */
 
 @RestController
 public class UserController {
@@ -21,10 +29,9 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping(value = "/level2/addUser", method = RequestMethod.POST)
-	public String  addUser(@RequestBody Users user) throws UserFoundException{
+	public String  addUser(@RequestBody UsersDTO usersDTO) throws UserException{
 		logger.info(" In addUser() of  UserController ");
-		 userService.saveUser(user);
+		 userService.saveUser(usersDTO);
 		 return "User is added successfully";
 	}
-
 }

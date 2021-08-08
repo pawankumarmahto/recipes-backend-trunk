@@ -1,47 +1,24 @@
-package com.assignment.favourite.recipes.entity;
+package com.assignment.favourite.recipes.dto;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+public class RecipesDTO implements Serializable {
 
-
-@Entity
-@Table(name="RECIPES_TBL")
-public class Recipes {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "recipesId", updatable = false, nullable = false)
+	private static final long serialVersionUID = 1001L;
 	private Long recipesId;
-
-	@Column(length = 100)
 	private String recipesName;
-
 	private String recipesType;
-
 	private Integer noOfPerson;
-
 	private String cookingInstruction;
-	
-	
 	private Timestamp preparedAt;
-	
 	private Timestamp updatedAt;
+	private Set<UsedIngredientsDTO> usedingredients = new HashSet<>();
 
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER, orphanRemoval = true)
-	@JoinColumn(name="RECIPESID_FK")
-	private Set<UsedIngredients> usedingredients = new HashSet<>();
+	public RecipesDTO() {
+	}
 
 	public String getCookingInstruction() {
 		return cookingInstruction;
@@ -92,11 +69,11 @@ public class Recipes {
 		this.recipesType = recipesType;
 	}
 
-	public Set<UsedIngredients> getUsedingredients() {
+	public Set<UsedIngredientsDTO> getUsedingredients() {
 		return usedingredients;
 	}
 
-	public void setUsedingredients(Set<UsedIngredients> usedingredients) {
+	public void setUsedingredients(Set<UsedIngredientsDTO> usedingredients) {
 		this.usedingredients = usedingredients;
 	}
 
@@ -107,5 +84,4 @@ public class Recipes {
 	public void setPreparedAt(Timestamp preparedAt) {
 		this.preparedAt = preparedAt;
 	}
-
 }

@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
 import com.assignment.favourite.recipes.entity.Users;
 
@@ -20,7 +19,8 @@ public class CustomUserDetails  implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return user.getRoles().stream().map(role->new SimpleGrantedAuthority("ROLE_"+role.getRole())). collect(Collectors.toList());
+		return user.getUserRole().stream().map(role->new SimpleGrantedAuthority("ROLE_"+role.getUserRoleName())). collect(Collectors.toList());
+		
 	}
 
 	@Override
