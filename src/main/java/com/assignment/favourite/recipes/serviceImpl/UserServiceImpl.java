@@ -33,15 +33,23 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	/**
+	 * Adding new User
+	 * Checking first if User is available, if not  throwing the message : Con not add, User is already exist.
+	 * if User is available proceeding with save User
+	 */
 	@Override
 	public void saveUser(UsersDTO usersDTO) throws UserException{
 		logger.info(" In saveUser() of  UserServiceImpl ");
 		
 		ErrorMessage message = new ErrorMessage();
 		UserException	ex =  new UserException();
-		
+		/**
+		 * checking the user if available by user name
+		 */
 		 Optional<Users> optionalUser = userRepository.findByUserName(usersDTO.getUserName());
          if(optionalUser.isPresent()) {
+        	 logger.error(" In saveUser() of  UserServiceImpl : Con not add, User is already exist.");
         	message.setStatus(HttpStatus.FOUND);
 			message.setMessage("Con not add, User is already exist.");
 			ex.setErrorMessage(message);
@@ -58,11 +66,14 @@ public class UserServiceImpl implements UserService {
          
          Set<UserRole> roles = usersDTO.getRoles().stream().map(role-> new UserRole(role.getId(), role.getUserRoleId(), role.getUserRoleName()))
         		 .collect(Collectors.toSet());
-         
+         /**
+ 		 * saving the user
+ 		 */
          user.setRole(roles);
          try {
         	 userRepository.save(user);
          } catch (Exception exe) {
+        	 logger.error(" In saveUser() of  UserServiceImpl :Something went wrong while saving User!");
  			message.setStatus(HttpStatus.BAD_REQUEST);
  			message.setMessage("Something went wrong while saving User!");
  			ex.setErrorMessage(message);

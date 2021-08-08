@@ -13,4 +13,6 @@ public interface IngredientService {
 	public IngredientDTO saveIngredient(IngredientDTO ingredientDTO)  throws IngredientException;
 	
 	public void deleteIngredient(Long ingredientId) throws IngredientException;
+	
+	public void deleteIngredientByName(String ingredientName) throws IngredientException;
 }

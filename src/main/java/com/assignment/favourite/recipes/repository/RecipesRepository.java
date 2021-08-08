@@ -19,4 +19,6 @@ public interface RecipesRepository extends JpaRepository<Recipes, Long> {
 
 	public  Optional<Recipes> findByRecipesName(String recipesName);
 	
+	public  void deleteByRecipeName(String recipesName);
+	
 }

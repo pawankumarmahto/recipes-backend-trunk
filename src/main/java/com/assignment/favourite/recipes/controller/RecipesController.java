@@ -55,6 +55,13 @@ public class RecipesController {
 		 return "Recipe is deleted successfully";
 	}
 	
+	@RequestMapping(value = "/level2/delete/{recipeName}", method = RequestMethod.DELETE)
+	public String deleteRecipeByrecipeName(@PathVariable("recipeName") String recipeName) throws RecipesException {
+		logger.info(" In deleteRecipe() of  RecipesController ");
+		 recepesService.deleteRecipeByName(recipeName);
+		 return "Recipe is deleted successfully";
+	}
+	
 	@RequestMapping(value = "/level2/deleteAllRecipes", method = RequestMethod.DELETE)
 	public String deleteAllRecipes() throws RecipesException {
 		logger.info(" In deleteAllRecipes() of  RecipesController ");
@@ -68,5 +75,4 @@ public class RecipesController {
 		 recepesService.updateRecipe(recipesDTO);
 		 return "Recipe successfully updated!";
 	}
-	
 }

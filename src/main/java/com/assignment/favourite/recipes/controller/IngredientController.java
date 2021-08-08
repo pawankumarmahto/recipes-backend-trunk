@@ -31,7 +31,6 @@ public class IngredientController {
 	@Autowired
 	private IngredientService ingredientService;
 	
-	
 	@RequestMapping(value = "/level1/fetchIngredients", method = RequestMethod.GET)
 	public List<IngredientDTO> fetchIngredients() throws IngredientException{
 		logger.info(" In fetchIngredients() of  IngredientController ");
@@ -52,4 +51,10 @@ public class IngredientController {
 		 return "Ingredient is deleted successfully";
 	}
 	
+	@RequestMapping(value = "/level2/deleteIngredient/{IngredientName}", method = RequestMethod.DELETE)
+	public String deleteIngredientByName(@PathVariable("IngredientName") String IngredientName) throws IngredientException{
+		logger.info(" In deleteIngredient() of  IngredientController ");
+		 ingredientService.deleteIngredientByName(IngredientName);
+		 return "Ingredient is deleted successfully";
+	}
 }

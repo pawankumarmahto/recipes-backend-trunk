@@ -13,6 +13,8 @@ public interface RecipesService {
 	
 	public void deleteRecipe(Long RecipesId)  throws RecipesException;
 	
+	public void deleteRecipeByName(String RecipesName)  throws RecipesException;
+	
 	public void deleteAllRecipes() throws RecipesException;
 	
 	public void  updateRecipe(RecipesDTO recipesDTO) throws RecipesException ;
