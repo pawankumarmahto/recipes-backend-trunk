@@ -39,11 +39,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.csrf() 
 		.disable()
 		.authorizeRequests()
-		
 		.antMatchers("/level2/**").hasAnyAuthority("ROLE_ADMIN")
 		.antMatchers("/level1/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-		.antMatchers("/swagger**").permitAll()
-		.anyRequest().authenticated().and().httpBasic()
-        ;
+		.anyRequest().authenticated()
+		.and()
+		.httpBasic() ;
 	}
 }
