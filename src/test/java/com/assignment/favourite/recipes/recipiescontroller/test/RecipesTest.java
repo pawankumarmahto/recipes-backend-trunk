@@ -44,7 +44,7 @@ public class RecipesTest {
 		Mockito.when(recipesRepository.findByRecipesName(Mockito.anyString())).thenReturn(null);
 		Mockito.when(recipesRepository.save(Mockito.any(Recipes.class))).thenReturn(getRecipe());
 		String result = recipesController.addRecipe(getRecipeDTO());
-		assertEquals( "Recipe is saved successfully", result);
+		assertEquals( "Recipe is added successfully", result);
 	}
 	
 	/**
