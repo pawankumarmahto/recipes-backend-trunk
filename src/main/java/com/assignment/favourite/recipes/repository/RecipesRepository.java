@@ -22,7 +22,4 @@ public interface RecipesRepository extends JpaRepository<Recipes, Long> {
 
 	public  Optional<Recipes> findByRecipesName(String recipesName);
 	
-	@Modifying
-	@Query( value="DELETE FROM recipes_tbl b WHERE b.recipes_name=:recipesName", nativeQuery=true)
-	public  void deleteByRecipesName(String recipesName);
 }

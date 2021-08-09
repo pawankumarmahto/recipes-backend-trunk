@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.assignment.favourite.recipes.dto.UsersDTO;
@@ -32,6 +33,9 @@ public class UserServiceImpl implements UserService {
 	private static final Logger logger = LoggerFactory.getLogger(RecipesServiceImpl.class);
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	/**
 	 * Adding new User
@@ -60,9 +64,10 @@ public class UserServiceImpl implements UserService {
           */
          Users user = new Users();
          user.setUserName(usersDTO.getUserName());
-         user.setPassword(usersDTO.getPassword());
+         user.setPassword(bCryptPasswordEncoder.encode(usersDTO.getPassword()));
          user.setEmail(usersDTO.getEmail());
          user.setActive(usersDTO.getActive());
+         
          
          Set<UserRole> roles = usersDTO.getRoles().stream().map(role-> new UserRole(role.getId(), role.getUserRoleId(), role.getUserRoleName()))
         		 .collect(Collectors.toSet());

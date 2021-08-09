@@ -79,7 +79,7 @@
 						window.setTimeout(function(){location.reload()},1000)
 					},
 					error: function(err) {
-						$("#msg").html( "<span style='color: red'>Name is required</span>" );
+						//$("#msg").html( "<span style='color: red'>Name is required</span>" );
 					}
 				});
 			});
@@ -144,7 +144,7 @@
 						window.setTimeout(function(){location.reload()},1000)
 					},
 					error: function(err) {
-						$("#msg").html( "<span style='color: red'>Name is required</span>" );
+						//$("#msg").html( "<span style='color: red'>Name is required</span>" );
 					}
 				}); 
 			}); 
@@ -179,6 +179,39 @@
 
 
 	<h2>Favourite Recipes Management</h2>
+	
+	<h4>Ingredients</h4>
+	<form id="addIngredient" action="#" >
+	<div class="w3-container">
+ 
+  <div id="id011" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+       <!--  <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span> -->
+        
+        	<div id="msg"/>
+        <p>
+			<label>Ingredient Name</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="text" id="ingredientsName" name="ingredientsName">
+		</p>
+		
+		<p>
+			<input type="submit" id="addNewingredient" value="Add Ingredient">
+		</p>
+		</div>
+    </div>
+  </div>
+</div>
+</form>
+	
+	<table id="table2" border="1" cellspacing="0" cellpadding="5">
+		<tr>
+			<th>Ingredient Name</th>
+			<th>Action</th>
+		</tr>
+	</table>
+	
+	<h2>Favourite Recipes</h2>
 	<form id="add" action="#" >
 	<div class="w3-container">
  
@@ -217,7 +250,6 @@
   </div>
 </div>
 </form>
-<br><br>
 
 	<table id ="table1" border="1" cellspacing="0" cellpadding="5">
 		<tr>
@@ -231,37 +263,7 @@
 		</tr>
 	</table>
 	
-	<br><br>
-	<h4>Ingredients</h4>
-	<form id="addIngredient" action="#" >
-	<div class="w3-container">
- 
-  <div id="id011" class="w3-modal">
-    <div class="w3-modal-content">
-      <div class="w3-container">
-       <!--  <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span> -->
-        
-        	<div id="msg"/>
-        <p>
-			<label>Ingredient Name</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="text" id="ingredientsName" name="ingredientsName">
-		</p>
-		
-		<p>
-			<input type="submit" id="addNewingredient" value="Add Ingredient">
-		</p>
-		</div>
-    </div>
-  </div>
-</div>
-</form>
 	
-	<table id="table2" border="1" cellspacing="0" cellpadding="5">
-		<tr>
-			<th>Ingredient Name</th>
-			<th>Action</th>
-		</tr>
-	</table>
 	
 </body>
 </html>

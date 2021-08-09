@@ -1,7 +1,10 @@
 package com.assignment.favourite.recipes.dto;
 
-public class UserRoleDTO {
+import java.io.Serializable;
 
+public class UserRoleDTO implements Serializable {
+
+	private static final long serialVersionUID = 1001L;
 	private Integer id;
 	
 	private Integer userRoleId;

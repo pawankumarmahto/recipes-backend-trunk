@@ -48,7 +48,7 @@ public class RecipesServiceImpl implements RecipesService {
 		logger.info(" In fetchRecipes() of  RecipesServiceImpl.");
 		
 		/**
-		 * fetching all recipes
+		 * Fetch all recipes
 		 */
 		List<Recipes> recipesList=  repository.findAll();
 		
@@ -64,12 +64,12 @@ public class RecipesServiceImpl implements RecipesService {
 		
 		List<RecipesDTO> recipesDTOList = new ArrayList<>();
 		/**
-		 *  Converting recipesListt to List of RecipesDTO List
+		 *  Convert recipesListt to List of RecipesDTO List
 		 */
 		recipesList.forEach(recipe -> {
 			RecipesDTO recipesDTO = new RecipesDTO();
 			/**
-			 *  Converting ingredients List to ingredientsDTO List Object
+			 *  Convert ingredients List to ingredientsDTO List Object
 			 */
 			fetchUsedIngredients(recipe, recipesDTO);
 			recipesDTO.setRecipesId(recipe.getRecipesId());
@@ -85,7 +85,7 @@ public class RecipesServiceImpl implements RecipesService {
 	}
 	/**
 	 * Adding new recipe
-	 * Checking first if recipe is is available, if not  throwing the message : Recipe already exists, can't be added!
+	 * Checking first if recipe is available, if not  throwing the message : Recipe already exists, can't be added!
 	 * if recipe is available proceeding with save recipe
 	 */
 	public void saveRecipe(RecipesDTO recipesDTO) throws RecipesException {
@@ -94,7 +94,7 @@ public class RecipesServiceImpl implements RecipesService {
 		ErrorMessage message = new ErrorMessage();
 		RecipesException	ex =  new RecipesException();
 		/**
-		 * checking the recipe if available by recipe name
+		 * Check the recipe if available by recipe name
 		 */
 		Optional<Recipes> optional = repository.findByRecipesName(recipesDTO.getRecipesName()); 
 		if(optional.isPresent()) {
@@ -105,7 +105,7 @@ public class RecipesServiceImpl implements RecipesService {
 			throw ex;
 		}  
 		/**
-		 *  Converting recipesDTO to Recipes Object
+		 *  Convert recipesDTO to Recipes Object
 		 */
 		Recipes recipe = new Recipes();
 		BeanUtils.copyProperties(recipesDTO, recipe);
@@ -128,7 +128,7 @@ public class RecipesServiceImpl implements RecipesService {
 	}
 	/**
 	 * Function to delete recipe By recipesId
-	 *  Checking first if recipe is available, if not  throwing the message :Recipe not found, can't be deleted!
+	 *  Check first if recipe is available, if not  throwing the message :Recipe not found, can't be deleted!
 	 * if recipe is available proceeding with delete recipe by id
 	 */
 	public void deleteRecipe(Long recipesId) throws RecipesException {
@@ -137,7 +137,7 @@ public class RecipesServiceImpl implements RecipesService {
 		ErrorMessage message = new ErrorMessage();
 		RecipesException	ex =  new RecipesException();
 		/**
-		 * checking the recipe if available by recipe id
+		 * Check the recipe if available by recipe id
 		 */
 		if (!repository.existsById(recipesId)) {
 			logger.error("In deleteRecipe() of  RecipesServiceImpl :Recipe not found, can't be deleted!");
@@ -147,7 +147,7 @@ public class RecipesServiceImpl implements RecipesService {
 			throw ex;
 		}
 		/**
-		 * deleting recipe by recipesId
+		 * delete recipe by recipesId
 		 */
 		try {
 			repository.deleteById(recipesId);
@@ -171,7 +171,7 @@ public class RecipesServiceImpl implements RecipesService {
 		ErrorMessage message = new ErrorMessage();
 		RecipesException	ex =  new RecipesException();
 		/**
-		 * checking the recipe if available by recipe name
+		 * Check the recipe if available by recipe name
 		 */
 		Optional<Recipes> optional = repository.findByRecipesName(recipesName); 
 		if(!optional.isPresent()) {
@@ -182,7 +182,7 @@ public class RecipesServiceImpl implements RecipesService {
 			throw ex;
 		}  
 		/**
-		 * deleting recipe by recipesId
+		 * Delete recipe by recipesId
 		 */
 		Long recipeId = optional.get().getRecipesId();
 		try {
@@ -207,7 +207,7 @@ public class RecipesServiceImpl implements RecipesService {
 		ErrorMessage message = new ErrorMessage();
 		RecipesException	ex =  new RecipesException();
 		/**
-		 * checking the count of recipes
+		 * Check the count of recipes
 		 */
 		Long count = repository.count();
 		
@@ -219,7 +219,7 @@ public class RecipesServiceImpl implements RecipesService {
 			throw ex;
 		}
 		/**
-		 * deleting All recipes
+		 * Delete All recipes
 		 */
 		try {
 			repository.deleteAll();
@@ -234,7 +234,7 @@ public class RecipesServiceImpl implements RecipesService {
 	
 	/**
 	 * Function to update recipe 
-	 * Checking first if recipe is is available, if not  throwing the message : Recipe does not exists can not be updated
+	 * Check first if recipe is is available, if not  throwing the message : Recipe does not exists can not be updated
 	 * if recipe is available proceeding with update
 	 */
 	public void  updateRecipe(RecipesDTO recipesDTO) throws RecipesException{
@@ -255,7 +255,7 @@ public class RecipesServiceImpl implements RecipesService {
 			throw ex;
 		}  
 		/**
-		 *  Converting recipesDTO to Recipes Object
+		 *  Convert recipesDTO to Recipes Object
 		 */
 		Recipes recipe = new Recipes();
 		BeanUtils.copyProperties(recipesDTO, recipe);
@@ -268,7 +268,7 @@ public class RecipesServiceImpl implements RecipesService {
 		recipe.setUsedingredients(usedIngredients);
 		
 		/**
-		 * Updating the recipe
+		 * Update the recipe
 		 */
 		try {
 			repository.save(recipe);
@@ -281,7 +281,7 @@ public class RecipesServiceImpl implements RecipesService {
 		}
 	}
 	/**
-	 *  Converting ingredients List to ingredientsDTO List Object
+	 *  Convert ingredients List to ingredientsDTO List Object
 	 */
 	private void fetchUsedIngredients(Recipes recipe, RecipesDTO recipesDTO) {
 		Set<UsedIngredientsDTO> usedIngredients = new HashSet<UsedIngredientsDTO>();
